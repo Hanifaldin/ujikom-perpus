@@ -1,3 +1,6 @@
+<?php
+include "koneksi.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -20,34 +23,33 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                     <div class="card-body">
-                                        <form>
-                                            <?php
-                                                if(isset($_POST['login'])){
-                                                    $username = $_POST('username');
-                                                    $password = md5('password');
+                                        <?php
+                                            if(isset($_POST['login'])) {
+                                                $username = $_POST['username'];
+                                                $password = md5($_POST['password']);
 
-                                                    $data = mysqli_query($koneksi,"SELECT*FROM user where username='$username' and passwaord='$password'");
-                                                    $cek = mysqli_num_rows($data);
-
-                                                    if($cek > 0){
-                                                        $_SESSION['user'] = mysqli_fetch_array($data);
-                                                        echo '<script>alert("Login Berhasil"); location.href="index.php"</script>';
-                                                    }else{
-                                                        echo '<script>alert("Login Gagal"); location.href="login.php"</script>';
-                                                    }
+                                                $data = mysqli_query($koneksi, "SELECT*FROM user where username='$username' and password='$password'");
+                                                $cek = mysqli_num_rows($data);
+                                                if($cek > 0){
+                                                    $_SESSION['user'] = mysqli_fetch_array($data);
+                                                    echo '<script>alert("Login Berhasil"); location.href="index.php"</script>';
+                                                }else{
+                                                    echo '<script>alert("Login Gagal")</script>';
                                                 }
-                                            ?> 
+                                            }
+                                        ?>
+                                        <form method="post">
                                             <div class="form-group">
                                                 <label class="small mb-1">Username</label>
-                                                <input class="form-control py-3" type="username" name="username" placeholder="Masukan Username" />
+                                                <input class="form-control py-3" type="username" required name="username" placeholder="Masukan Username" />
                                             </div>
                                             <div class="form-group">
                                                 <label class="small mb-1">Password</label>
-                                                <input class="form-control py-3" type="password" name="password" placeholder="Masukan Password" />
+                                                <input class="form-control py-3" type="password" required name="password" placeholder="Masukan Password" />
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="btn btn-danger" href="register.php">Register</a>
-                                                <a class="btn btn-primary" href="index.php">Login</a>
+                                                <button class="btn btn-primary" type="submit" name="login" value="login">Login</button>
                                             </div>
                                         </form>
                                     </div>
